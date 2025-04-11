@@ -1,0 +1,14 @@
+<h2>Gestión de Comentarios</h2>
+
+<div *ngIf="comentarios.length === 0">
+    <p>No hay comentarios activos.</p>
+</div>
+
+<ul class="list-group">
+    <li *ngFor="let c of comentarios" class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+            <strong>{{ c.autor }}:</strong> {{ c.mensaje }}
+        </div>
+        <button class="btn btn-danger btn-sm" (click)="banear(c.id)">Banear</button>
+    </li>
+</ul>

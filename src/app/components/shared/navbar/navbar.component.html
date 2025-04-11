@@ -1,0 +1,39 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" routerLink="/">ForoFS3</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/foro">Foro</a>
+                </li>
+                <li class="nav-item" *ngIf="usuario && usuario.rol === 'INVITADO'">
+                    <a class="nav-link" routerLink="/mis-publicaciones">Mis publicaciones</a>
+                </li>
+                <li class="nav-item" *ngIf="usuario && usuario.rol === 'ADMIN'">
+                    <a class="nav-link" routerLink="/admin">Panel Admin</a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav ms-auto">
+                <li *ngIf="!usuario" class="nav-item">
+                    <a class="nav-link" routerLink="/login">Iniciar sesión</a>
+                </li>
+                <li *ngIf="!usuario" class="nav-item">
+                    <a class="nav-link" routerLink="/registro">Registrarse</a>
+                </li>
+                <li *ngIf="usuario" class="nav-item">
+                    <a class="nav-link" routerLink="/perfil">Perfil</a>
+                </li>
+                <li *ngIf="usuario" class="nav-item">
+                    <a class="nav-link" (click)="cerrarSesion()">Cerrar sesión</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

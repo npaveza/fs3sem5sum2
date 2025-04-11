@@ -1,0 +1,44 @@
+<!-- dashboard.component.html -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center" href="#">
+            <img src="assets/admin-avatar.png" alt="Logo" width="40" height="40" class="me-2 rounded-circle">
+            <span class="fw-bold">AdminPanel</span>
+        </a>
+
+        <div class="ms-auto d-flex align-items-center">
+            <span class="text-white me-3">Bienvenido, Admin</span>
+            <img src="assets/logo.png" alt="Avatar" width="40" height="40" class="rounded-circle border border-light">
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Panel del Administrador</h2>
+
+    <div class="row justify-content-center">
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-lg border-0 bg-gradient-primary text-white">
+                <div class="card-body text-center">
+                    <i class="bi bi-pencil-square display-4 mb-3"></i>
+                    <h5 class="card-title">Publicaciones</h5>
+                    <p class="card-text">Total: 3</p>
+                    <a routerLink="publicaciones" class="btn btn-outline-light btn-sm">Ver todas</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-lg border-0 bg-gradient-success text-white">
+                <div class="card-body text-center">
+                    <i class="bi bi-chat-left-text display-4 mb-3"></i>
+                    <h5 class="card-title">Comentarios</h5>
+                    <p class="card-text">Total: 3</p>
+                    <a routerLink="comentarios" class="btn btn-outline-light btn-sm">Ver todos</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <router-outlet></router-outlet>
+</div>

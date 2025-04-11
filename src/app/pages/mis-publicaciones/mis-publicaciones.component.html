@@ -1,0 +1,17 @@
+<h2>Mis Publicaciones</h2>
+
+<div *ngIf="publicaciones.length === 0">
+    <p>No has publicado nada aún.</p>
+</div>
+
+<div class="row" *ngIf="publicaciones.length > 0">
+    <div class="col-md-4 mb-3" *ngFor="let pub of publicaciones">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ pub.titulo }}</h5>
+                <p class="card-text">{{ pub.descripcion }}</p>
+                <a class="btn btn-outline-primary btn-sm" (click)="irADetalle(pub.id)">Ver publicación</a>
+            </div>
+        </div>
+    </div>
+</div>

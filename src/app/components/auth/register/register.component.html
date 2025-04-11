@@ -1,0 +1,58 @@
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h2>Registro de usuario</h2>
+
+        <form [formGroup]="registroForm" (ngSubmit)="registrar()">
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Nombre</label>
+                    <input class="form-control" formControlName="nombre">
+                    <div class="text-danger"
+                        *ngIf="registroForm.get('nombre')?.invalid && registroForm.get('nombre')?.touched">
+                        Campo requerido
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Correo</label>
+                    <input type="email" class="form-control" formControlName="email">
+                    <div class="text-danger"
+                        *ngIf="registroForm.get('email')?.invalid && registroForm.get('email')?.touched">
+                        Correo inválido
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Contraseña</label>
+                    <input type="password" class="form-control" formControlName="password">
+                    <div class="text-danger"
+                        *ngIf="registroForm.get('password')?.invalid && registroForm.get('password')?.touched">
+                        Contraseña inválida (mínimo 8, mayúscula, minúscula, número, símbolo)
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Confirmar Contraseña</label>
+                    <input type="password" class="form-control" formControlName="confirmarPassword">
+                    <div class="text-danger"
+                        *ngIf="registroForm.hasError('passwordMismatch') && registroForm.get('confirmarPassword')?.touched">
+                        Las contraseñas no coinciden
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Rol</label>
+                    <select class="form-control" formControlName="rol">
+                        <option value="INVITADO">Invitado</option>
+                        <option value="ADMIN">Administrador</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn btn-success w-100" type="submit" [disabled]="registroForm.invalid">
+                Registrarse
+            </button>
+        </form>
+    </div>
+</div>
