@@ -1,0 +1,20 @@
+<div class="container mt-5">
+    <h2>Crear Nueva Publicación</h2>
+    <form (ngSubmit)="crearPublicacion()" #formulario="ngForm">
+        <div class="mb-3">
+            <label for="titulo" class="form-label">Título</label>
+            <input type="text" id="titulo" class="form-control" [(ngModel)]="publicacion.titulo" name="titulo"
+                required />
+        </div>
+
+        <div class="mb-3">
+            <label for="contenido" class="form-label">Contenido</label>
+            <textarea id="contenido" class="form-control" [(ngModel)]="publicacion.contenido" name="contenido"
+                required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary" [disabled]="!formulario.valid">
+            Publicar
+        </button>
+    </form>
+</div>

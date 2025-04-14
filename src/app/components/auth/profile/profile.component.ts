@@ -1,42 +1,68 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Usuario, UsuarioService } from '../../../services/usuario.service';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './profile.component.html',
-  styleUrl: './profile.component.css'
+  styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent {
-  perfilForm: FormGroup;
+export class ProfileComponent implements OnInit {
+  perfilForm!: FormGroup;
+  usuarioActual!: Usuario;
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private usuarioService: UsuarioService
+  ) { }
+
+  ngOnInit(): void {
     const usuarioGuardado = localStorage.getItem('usuarioActual');
-    const usuario = usuarioGuardado ? JSON.parse(usuarioGuardado) : null;
+    if (usuarioGuardado) {
+      const usuario = JSON.parse(usuarioGuardado);
+      const id = usuario.id;
 
-    this.perfilForm = this.fb.group({
-      nombre: [usuario?.nombre || '', Validators.required],
-      email: [usuario?.email || '', [Validators.required, Validators.email]],
-      rol: [{ value: usuario?.rol || 'INVITADO', disabled: true }]
-    });
+      this.usuarioService.obtenerUsuario(id).subscribe((res: Usuario) => {
+        this.usuarioActual = res;
+
+        this.perfilForm = this.fb.group({
+          nombre: [res.nombre, Validators.required],
+          apellido: [res.apellido],
+          email: [res.email, [Validators.required, Validators.email]],
+          rol: [{ value: res.rol, disabled: true }],
+          contrasena: ['']
+        });
+      });
+    }
   }
 
   guardarCambios() {
     if (this.perfilForm.valid) {
-      const datosActualizados = this.perfilForm.getRawValue();
-      const usuarioActual = JSON.parse(localStorage.getItem('usuarioActual')!);
-
-      const actualizado = {
-        ...usuarioActual,
-        ...datosActualizados
+      const cambios = this.perfilForm.getRawValue();
+      const usuarioActualizado: Usuario = {
+        ...this.usuarioActual,
+        nombre: cambios.nombre,
+        apellido: cambios.apellido,
+        email: cambios.email
       };
 
-      localStorage.setItem('usuarioActual', JSON.stringify(actualizado));
-      alert('Perfil actualizado correctamente');
-      this.router.navigate(['/foro']);
+      if (cambios.contrasena) {
+        usuarioActualizado.contrasena = cambios.contrasena;
+      }
+
+      this.usuarioService.actualizarUsuario(this.usuarioActual.id, usuarioActualizado).subscribe((res: Usuario) => {
+        localStorage.setItem('usuarioActual', JSON.stringify(res));
+        alert('Perfil actualizado correctamente');
+        this.router.navigate(['/foro']);
+      }, error => {
+        console.error(error);
+        alert('Error al actualizar el perfil');
+      });
     }
   }
 }

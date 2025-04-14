@@ -25,6 +25,10 @@ export const routes: Routes = [
     { path: 'foro', component: ForoComponent },
     { path: 'foro/:id', component: PostDetailComponent },
     { path: 'mis-publicaciones', component: MisPublicacionesComponent },
+    { path: 'publicacion-form', loadComponent: () =>
+            import('./components/publicacion-form/publicacion-form.component')
+                .then(m => m.CrearPublicacionComponent)
+    },
 
     // Admin
     {

@@ -5,8 +5,8 @@
         <div class="card h-100">
             <div class="card-body">
                 <h5 class="card-title">{{ publicacion.titulo }}</h5>
-                <p class="card-text">{{ publicacion.descripcion }}</p>
-                <p class="text-muted">Autor: {{ publicacion.autor }}</p>
+                <p class="card-text">{{ publicacion.contenido }}</p>
+                <p class="text-muted">Autor: {{ publicacion.autor.nombre }}</p>
                 <a [routerLink]="['/foro', publicacion.id]" class="btn btn-outline-primary btn-sm">Ver más</a>
             </div>
         </div>

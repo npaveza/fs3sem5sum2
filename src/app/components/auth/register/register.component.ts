@@ -2,24 +2,26 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UsuarioService } from '../../../services/usuario.service';
 
 @Component({
   selector: 'app-register',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
   registroForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(private fb: FormBuilder, private router: Router, private usuarioService: UsuarioService) {
     this.registroForm = this.fb.group({
       nombre: ['', Validators.required],
+      apellido: [''],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, this.passwordFuerteValidator]],
+      contrasena: ['', [Validators.required, this.passwordFuerteValidator]],
       confirmarPassword: [''],
-      rol: ['INVITADO', Validators.required]
+      rol: ['USER', Validators.required]
     }, { validators: [this.matchPasswords] });
   }
 
@@ -39,7 +41,7 @@ export class RegisterComponent {
   }
 
   matchPasswords(group: AbstractControl): ValidationErrors | null {
-    const pass = group.get('password')?.value;
+    const pass = group.get('contrasena')?.value;
     const confirm = group.get('confirmarPassword')?.value;
     return pass === confirm ? null : { passwordMismatch: true };
   }
@@ -49,9 +51,16 @@ export class RegisterComponent {
       const nuevoUsuario = this.registroForm.value;
       delete nuevoUsuario.confirmarPassword;
 
-      localStorage.setItem('usuarioActual', JSON.stringify(nuevoUsuario));
-      alert('Registro exitoso');
-      this.router.navigate(['/foro']);
+      this.usuarioService.crearUsuario(nuevoUsuario).subscribe(
+        (response) => {
+          alert('Registro exitoso');
+          this.router.navigate(['/foro']);
+        },
+        (error) => {
+          console.error(error);
+          alert('Error al registrarse');
+        }
+      );
     }
   }
 }

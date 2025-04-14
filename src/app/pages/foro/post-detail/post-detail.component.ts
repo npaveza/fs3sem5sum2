@@ -1,68 +1,65 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ComentarioService } from '../../../services/comentario.service';
+import { PublicacionService } from '../../../services/publicacion.service';
 
 @Component({
   selector: 'app-post-detail',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './post-detail.component.html',
-  styleUrl: './post-detail.component.css'
+  styleUrls: ['./post-detail.component.css'],
+  standalone: true,
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule]
 })
-export class PostDetailComponent {
+export class PostDetailComponent implements OnInit {
   publicacion: any;
   comentarios: any[] = [];
-  comentarioForm: FormGroup;
+  comentarioForm = new FormGroup({
+    contenido: new FormControl('')
+  });
 
-  constructor(private route: ActivatedRoute, private fb: FormBuilder) {
+  // Este es un usuario temporal de prueba
+  usuarioActual = { id: 1 };
+
+  constructor(
+    private route: ActivatedRoute,
+    private publicacionService: PublicacionService,
+    private comentarioService: ComentarioService
+  ) { }
+
+  ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
 
-    // Simular datos de publicaciones (mismos que en ForoComponent)
-    const publicaciones = [
-      {
-        id: 1,
-        titulo: '¿Cuál es tu juego favorito?',
-        descripcion: 'Comparte tu juego favorito con la comunidad.',
-        autor: 'Nicolás'
-      },
-      {
-        id: 2,
-        titulo: 'Recomendaciones de anime',
-        descripcion: '¿Qué anime deberíamos ver este mes?',
-        autor: 'Valentina'
-      },
-      {
-        id: 3,
-        titulo: '¿Vale la pena pagar Crunchyroll?',
-        descripcion: 'Abro debate, ¿pagar o piratear?',
-        autor: 'Admin'
-      }
-    ];
-
-    this.publicacion = publicaciones.find(p => p.id === id);
-
-    // Comentarios simulados por publicación
-    this.comentarios = [
-      { autor: 'usuario1', mensaje: '¡Me encanta Hollow Knight!' },
-      { autor: 'usuario2', mensaje: 'FFXIV para siempre 💕' }
-    ];
-
-    this.comentarioForm = this.fb.group({
-      mensaje: ['', Validators.required]
+    this.publicacionService.obtenerPublicacionPorId(id).subscribe((publicacion: any) => {
+      this.publicacion = publicacion;
+      this.obtenerComentarios();
     });
   }
 
-  agregarComentario() {
-    if (this.comentarioForm.valid) {
-      const usuarioActual = JSON.parse(localStorage.getItem('usuarioActual')!);
-      const comentario = {
-        autor: usuarioActual?.nombre || 'Anónimo',
-        mensaje: this.comentarioForm.value.mensaje
-      };
+  obtenerComentarios() {
+    this.comentarioService
+      .obtenerComentariosPorPublicacion(this.publicacion.id)
+      .subscribe((comentarios: any) => {
+        this.comentarios = comentarios;
+      });
+  }
 
-      this.comentarios.push(comentario);
-      this.comentarioForm.reset();
+  agregarComentario() {
+    if (!this.usuarioActual?.id || !this.publicacion?.id) {
+      console.error('Falta usuarioActual o publicación');
+      return;
     }
+
+    const comentario = {
+      contenido: this.comentarioForm.value.contenido,
+      autor: { id: this.usuarioActual.id },
+      publicacion: { id: this.publicacion.id }
+    };
+
+    this.comentarioService.agregarComentario(comentario).subscribe((comentarioAgregado: any) => {
+      this.comentarios.push(comentarioAgregado);
+      this.comentarioForm.reset();
+    });
   }
 }

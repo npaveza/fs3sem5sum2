@@ -12,6 +12,12 @@
                 <li class="nav-item">
                     <a class="nav-link" routerLink="/foro">Foro</a>
                 </li>
+                <li class="nav-item" *ngIf="usuario">
+                    <a class="nav-link" routerLink="/mis-publicaciones">Mis publicaciones</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/publicacion-form']">Crear Publicación</a>
+                </li>
                 <li class="nav-item" *ngIf="usuario && usuario.rol === 'INVITADO'">
                     <a class="nav-link" routerLink="/mis-publicaciones">Mis publicaciones</a>
                 </li>

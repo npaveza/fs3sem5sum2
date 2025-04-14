@@ -7,7 +7,7 @@
 <ul class="list-group">
     <li *ngFor="let c of comentarios" class="list-group-item d-flex justify-content-between align-items-center">
         <div>
-            <strong>{{ c.autor }}:</strong> {{ c.mensaje }}
+            <strong>{{ c.autor.nombre }}:</strong> {{ c.contenido }}
         </div>
         <button class="btn btn-danger btn-sm" (click)="banear(c.id)">Banear</button>
     </li>

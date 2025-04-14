@@ -1,25 +1,20 @@
 <h2>{{ publicacion?.titulo }}</h2>
-<p>{{ publicacion?.descripcion }}</p>
-<p class="text-muted">Autor: {{ publicacion?.autor }}</p>
+<p>{{ publicacion?.contenido }}</p>
 
 <hr>
 
 <h4>Comentarios</h4>
 
 <ul class="list-group mb-3">
-    <li class="list-group-item" *ngFor="let c of comentarios">
-        <strong>{{ c.autor }}:</strong> {{ c.mensaje }}
+    <li class="list-group-item" *ngFor="let comentario of comentarios">
+        <strong>{{ comentario.autor?.nombre }}:</strong> {{ comentario.contenido }}
     </li>
 </ul>
 
 <form [formGroup]="comentarioForm" (ngSubmit)="agregarComentario()">
     <div class="mb-3">
         <label class="form-label">Agregar comentario</label>
-        <textarea class="form-control" rows="3" formControlName="mensaje"></textarea>
-        <div class="text-danger"
-            *ngIf="comentarioForm.get('mensaje')?.invalid && comentarioForm.get('mensaje')?.touched">
-            El comentario es requerido
-        </div>
+        <textarea formControlName="contenido" class="form-control" rows="3"></textarea>
     </div>
-    <button type="submit" class="btn btn-primary" [disabled]="comentarioForm.invalid">Comentar</button>
+    <button type="submit" class="btn btn-primary">Comentar</button>
 </form>
