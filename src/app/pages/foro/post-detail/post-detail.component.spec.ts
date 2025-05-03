@@ -1,23 +1,30 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
 import { PostDetailComponent } from './post-detail.component';
 
 describe('PostDetailComponent', () => {
-  let component: PostDetailComponent;
-  let fixture: ComponentFixture<PostDetailComponent>;
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PostDetailComponent]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(PostDetailComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+      imports: [HttpClientTestingModule, PostDetailComponent],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              paramMap: {
+                get: () => '1'
+              }
+            }
+          }
+        }
+      ]
+    }).compileComponents();
   });
 
   it('should create', () => {
+    const fixture = TestBed.createComponent(PostDetailComponent);
+    const component = fixture.componentInstance;
     expect(component).toBeTruthy();
   });
 });

@@ -1,5 +1,6 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { RouterTestingModule } from '@angular/router/testing';
 import { MisPublicacionesComponent } from './mis-publicaciones.component';
 
 describe('MisPublicacionesComponent', () => {
@@ -8,7 +9,11 @@ describe('MisPublicacionesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MisPublicacionesComponent]
+      imports: [
+        MisPublicacionesComponent,
+        HttpClientModule,
+        RouterTestingModule
+      ]
     })
     .compileComponents();
 
