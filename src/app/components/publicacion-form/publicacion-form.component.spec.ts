@@ -1,15 +1,29 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
+import { of } from 'rxjs';
+import { PublicacionService } from '../../services/publicacion.service';
 import { CrearPublicacionComponent } from './publicacion-form.component';
 
 describe('CrearPublicacionComponent', () => {
   let component: CrearPublicacionComponent;
   let fixture: ComponentFixture<CrearPublicacionComponent>;
 
+  const mockRouter = {
+    navigate: jasmine.createSpy('navigate')
+  };
+
+  const mockPublicacionService = {
+    crearPublicacion: jasmine.createSpy('crearPublicacion').and.returnValue(of({}))
+  };
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CrearPublicacionComponent]
-    })
-    .compileComponents();
+      imports: [CrearPublicacionComponent],
+      providers: [
+        { provide: Router, useValue: mockRouter },
+        { provide: PublicacionService, useValue: mockPublicacionService }
+      ]
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CrearPublicacionComponent);
     component = fixture.componentInstance;
@@ -19,4 +33,6 @@ describe('CrearPublicacionComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  // Puedes agregar más tests aquí si lo necesitas
 });

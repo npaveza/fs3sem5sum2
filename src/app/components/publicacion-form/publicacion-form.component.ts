@@ -1,6 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Publicacion } from '../../models/publicacion.model';
 import { PublicacionService } from '../../services/publicacion.service';
@@ -8,7 +8,7 @@ import { PublicacionService } from '../../services/publicacion.service';
 @Component({
   selector: 'app-publicacion-form',
   standalone: true,
-  imports: [BrowserModule, FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './publicacion-form.component.html',
   styleUrl: './publicacion-form.component.css'
 })
