@@ -21,6 +21,10 @@ export class NavbarComponent implements OnInit {
 
   cerrarSesion() {
     localStorage.removeItem('usuarioActual');
-    window.location.href = '/login';
+    this.redirigirALogin();
+  }
+
+  redirigirALogin() {
+    window.location.assign('/login');
   }
 }

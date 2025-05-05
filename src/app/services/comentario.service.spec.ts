@@ -1,12 +1,15 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-
 import { ComentarioService } from './comentario.service';
 
 describe('ComentarioService', () => {
   let service: ComentarioService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],  // Importamos HttpClientTestingModule
+      providers: [ComentarioService]
+    });
     service = TestBed.inject(ComentarioService);
   });
 

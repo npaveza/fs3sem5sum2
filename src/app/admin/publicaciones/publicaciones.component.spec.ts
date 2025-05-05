@@ -64,4 +64,5 @@ describe('PublicacionesComponent', () => {
     expect(publicacionServiceSpy.banearPublicacion).toHaveBeenCalledWith(1, jasmine.any(Object));
     expect(publicacionServiceSpy.obtenerTodasLasPublicaciones).toHaveBeenCalled();
   });
+  
 });

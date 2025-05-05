@@ -45,12 +45,12 @@ describe('DashboardComponent', () => {
   });
 
   // Añadimos pruebas para mejorar la cobertura
-  it('should display the correct number of publicaciones', () => {
+  it('debería mostrar el número de publicaciones', () => {
     expect(component.totalPublicaciones).toBe(2);
     expect(publicacionServiceSpy.obtenerTodasLasPublicaciones).toHaveBeenCalled();
   });
 
-  it('should display the correct number of comentarios', () => {
+  it('debería mostrar el número de comentarios', () => {
     expect(component.totalComentarios).toBe(3);
     expect(comentarioServiceSpy.getTodos).toHaveBeenCalled();
   });
